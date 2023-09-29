@@ -80,6 +80,38 @@ const App = () => {
     console.log('password', target.value)
     setPassword(target.value)
   }
+  
+  const blogFormRef = useRef()
+
+  const createBlog = async (title, author, url) => {
+    try {
+      blogFormRef.current.toggleVisibility()
+      
+      const createdBlog = await 
+        blogService
+          .create({
+            title,
+            author,
+            url
+          })
+
+      setBlogs(blogs.concat(createdBlog))
+      showSuccessMsg(`a new blog '${ createdBlog.title }' by ${ createdBlog.author } added`)
+
+    } catch ({ response }) {
+        showErrorMsg(response.data.error)
+    }    
+  }
+
+  const updateLikes = async (id, newBlog) => {
+    try {
+      const updatedBlog = await blogService.update(id, newBlog)
+      const newBlogs = blogs.map(blog => blog.id === id ? updatedBlog : blog)
+      setBlogs(newBlogs)
+    } catch ({ response }) {
+      showErrorMsg(response.data.error)
+    } 
+  }
 
   const loginForm = () => (
     <Login 
@@ -93,8 +125,6 @@ const App = () => {
     />
   )
 
-  const blogFormRef = useRef()
-
   const showBlogs = () => (
     <>
       <h1>blogs</h1>
@@ -104,16 +134,16 @@ const App = () => {
         <button onClick={handleLogOut}>logout</button>
       </p>
       <Togglable buttonLabel='create new blog' ref={blogFormRef}>
-        <BlogForm 
-          blogs={blogs}
-          setBlogs={setBlogs}
-          blogFormRef={blogFormRef}
-          showSuccessMsg={showSuccessMsg}
-          showErrorMsg={showErrorMsg}
-        />
+        <BlogForm createBlog={createBlog}/>
       </Togglable>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+      {blogs
+        .sort((a, b) => b.likes - a.likes)
+        .map(blog =>
+          <Blog 
+            key={blog.id}
+            blog={blog}
+            updateLikes={updateLikes}
+          />
       )}
     </>
   )

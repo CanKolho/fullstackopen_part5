@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import blogService from '../services/blogs.js'
 
-const BlogForm = ({ blogs, setBlogs, blogFormRef, showSuccessMsg, showErrorMsg }) => {
+const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -9,27 +8,10 @@ const BlogForm = ({ blogs, setBlogs, blogFormRef, showSuccessMsg, showErrorMsg }
   const handleCreate = async (event) => {
     event.preventDefault()
     console.log('sending', {title, author, url})
-
-    try {
-      blogFormRef.current.toggleVisibility()
-      
-      const createdBlog = await 
-        blogService
-          .create({
-            title,
-            author,
-            url
-          })
-
-      setBlogs(blogs.concat(createdBlog))
-      showSuccessMsg(`a new blog '${ createdBlog.title }' by ${ createdBlog.author } added`)
-
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-    } catch ({ response }) {
-        showErrorMsg(response.data.error)
-    }
+    await createBlog(title, author, url)
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
