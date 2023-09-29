@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -92,6 +93,8 @@ const App = () => {
     />
   )
 
+  const blogFormRef = useRef()
+
   const showBlogs = () => (
     <>
       <h1>blogs</h1>
@@ -100,13 +103,15 @@ const App = () => {
         {user.name} logged in {}
         <button onClick={handleLogOut}>logout</button>
       </p>
-      <br/>
-      <BlogForm 
-        blogs={blogs}
-        setBlogs={setBlogs}
-        showSuccessMsg={showSuccessMsg}
-        showErrorMsg={showErrorMsg}
-      />
+      <Togglable buttonLabel='create new blog' ref={blogFormRef}>
+        <BlogForm 
+          blogs={blogs}
+          setBlogs={setBlogs}
+          blogFormRef={blogFormRef}
+          showSuccessMsg={showSuccessMsg}
+          showErrorMsg={showErrorMsg}
+        />
+      </Togglable>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}

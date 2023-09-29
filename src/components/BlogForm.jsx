@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs.js'
 
-const BlogForm = ({ blogs, setBlogs, showSuccessMsg, showErrorMsg }) => {
+const BlogForm = ({ blogs, setBlogs, blogFormRef, showSuccessMsg, showErrorMsg }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -11,6 +11,8 @@ const BlogForm = ({ blogs, setBlogs, showSuccessMsg, showErrorMsg }) => {
     console.log('sending', {title, author, url})
 
     try {
+      blogFormRef.current.toggleVisibility()
+      
       const createdBlog = await 
         blogService
           .create({
