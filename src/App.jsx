@@ -113,6 +113,16 @@ const App = () => {
     } 
   }
 
+  const deleteBlog = async id => {
+    try {
+      await blogService.remove(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+      showSuccessMsg('blog deleted succesfully!')
+    } catch ({ response }) {
+      showErrorMsg(response.data.error)
+    }
+  }
+
   const loginForm = () => (
     <Login 
       handleLogin={handleLogin}
@@ -143,6 +153,8 @@ const App = () => {
             key={blog.id}
             blog={blog}
             updateLikes={updateLikes}
+            deleteBlog={deleteBlog}
+            username={user.username}
           />
       )}
     </>
