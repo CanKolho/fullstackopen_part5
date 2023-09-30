@@ -9,7 +9,7 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')   
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -62,15 +62,15 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch ({ response }) {
-        showErrorMsg(response.data.error)
+      showErrorMsg(response.data.error)
     }
   }
 
   const handleLogOut = () => {
     setUser(null)
     window.localStorage.clear()
-  } 
-  
+  }
+
   const handleUsername = ({ target }) => {
     console.log('username', target.value)
     setUsername(target.value)
@@ -80,27 +80,27 @@ const App = () => {
     console.log('password', target.value)
     setPassword(target.value)
   }
-  
+
   const blogFormRef = useRef()
 
   const createBlog = async (title, author, url) => {
     try {
       blogFormRef.current.toggleVisibility()
-      
-      const createdBlog = await 
-        blogService
-          .create({
-            title,
-            author,
-            url
-          })
+
+      const createdBlog = await
+      blogService
+        .create({
+          title,
+          author,
+          url
+        })
 
       setBlogs(blogs.concat(createdBlog))
       showSuccessMsg(`a new blog '${ createdBlog.title }' by ${ createdBlog.author } added`)
 
     } catch ({ response }) {
-        showErrorMsg(response.data.error)
-    }    
+      showErrorMsg(response.data.error)
+    }
   }
 
   const updateLikes = async (id, newBlog) => {
@@ -110,7 +110,7 @@ const App = () => {
       setBlogs(newBlogs)
     } catch ({ response }) {
       showErrorMsg(response.data.error)
-    } 
+    }
   }
 
   const deleteBlog = async id => {
@@ -124,7 +124,7 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <Login 
+    <Login
       handleLogin={handleLogin}
       username={username}
       password={password}
@@ -149,14 +149,14 @@ const App = () => {
       {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog =>
-          <Blog 
+          <Blog
             key={blog.id}
             blog={blog}
             updateLikes={updateLikes}
             deleteBlog={deleteBlog}
             username={user.username}
           />
-      )}
+        )}
     </>
   )
 

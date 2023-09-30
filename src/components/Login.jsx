@@ -1,4 +1,5 @@
-import Notification from "./Notification"
+import Notification from './Notification'
+import PropTypes from 'prop-types'
 
 const Login = ({ handleLogin, username, password, handleUsername, handlePassword, message, type }) => {
   return (
@@ -8,7 +9,7 @@ const Login = ({ handleLogin, username, password, handleUsername, handlePassword
       <form onSubmit={handleLogin}>
         <div>
           username {}
-          <input 
+          <input
             type="text"
             value={username}
             name="Username"
@@ -17,7 +18,7 @@ const Login = ({ handleLogin, username, password, handleUsername, handlePassword
         </div>
         <div>
           password {}
-          <input 
+          <input
             type="password"
             value={password}
             name="Password"
@@ -27,7 +28,16 @@ const Login = ({ handleLogin, username, password, handleUsername, handlePassword
         <button type="submit">login</button>
       </form>
     </>
-  ) 
+  )
+}
+
+Login.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  handleUsername: PropTypes.func.isRequired,
+  handlePassword: PropTypes.func.isRequired,
+  type: PropTypes.bool.isRequired,
 }
 
 export default Login
