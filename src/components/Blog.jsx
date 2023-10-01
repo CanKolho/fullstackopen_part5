@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 const Blog = ({ blog, updateLikes, deleteBlog, username }) => {
   const [blogVisible, setBlogVisible] = useState(false)
 
-  const hideWhenVisible = { display: blogVisible ? 'none' : '' }
   const showWhenVisible = { display: blogVisible ? '' : 'none' }
 
   const toggleVisibility = () => {
@@ -39,13 +38,13 @@ const Blog = ({ blog, updateLikes, deleteBlog, username }) => {
 
   return (
     <div style={blogStyle}>
-      <div style={hideWhenVisible}>
-        {blog.title} {blog.author} {}
-        <button onClick={toggleVisibility}>view</button>
+      <div>
+        <span>{blog.title} {blog.author} {}</span>
+        <button onClick={toggleVisibility}>
+          {blogVisible ? 'hide' : 'view'}
+        </button>
       </div>
       <div style={showWhenVisible}>
-        {blog.title} {blog.author} {}
-        <button onClick={toggleVisibility}>hide</button>
         <p><a href=''>{blog.url}</a></p>
         <p>
           Likes {blog.likes}
