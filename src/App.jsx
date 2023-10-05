@@ -117,7 +117,7 @@ const App = () => {
     try {
       await blogService.remove(id)
       setBlogs(blogs.filter(blog => blog.id !== id))
-      showSuccessMsg('blog deleted succesfully!')
+      showSuccessMsg('blog deleted successfully!')
     } catch ({ response }) {
       showErrorMsg(response.data.error)
     }
@@ -141,7 +141,7 @@ const App = () => {
       <Notification message={message} type={msgType}/>
       <p>
         {user.name} logged in {}
-        <button onClick={handleLogOut}>logout</button>
+        <button id='logout-btn' onClick={handleLogOut}>logout</button>
       </p>
       <Togglable buttonLabel='create new blog' ref={blogFormRef}>
         <BlogForm createBlog={createBlog}/>

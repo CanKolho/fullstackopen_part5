@@ -33,7 +33,7 @@ describe('<Blog />', () => {
   })
   
   test('renders title and author but not url or likes by default', async () => {
-    const titleAndAuthor = screen.getByText(`${blog.title} ${blog.author}`)
+    const titleAndAuthor = screen.getByText(`${blog.title} - ${blog.author}`)
     const blogUrl = screen.getByText(blog.url)
     const likes = await screen.findByText(`Likes ${blog.likes}`)
 
